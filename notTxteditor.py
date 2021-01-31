@@ -167,10 +167,10 @@ class MainWindow(QMainWindow):
 		if not path:
 			return
 
-		self.save_topath(self,path)
+		self.save_topath(path)
 
 
-	def sae_topath(self,path):
+	def save_topath(self,path):
 		text = self.editor.toPlainText()
 		try:
 			with open(path,'w') as f:
