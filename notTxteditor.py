@@ -13,17 +13,21 @@ class MainWindow(QMainWindow):
 
 		layout = QVBoxLayout()
 
-		self.editor = QPlainTextEdit()
-		
+		self.fixedfont = QFontDatabase.systemFont(QFontDatabase.FixedFont)
+		self.fixedfont.setPointSize(12)
 
-		fixedfont = QFontDatabase.systemFont(QFontDatabase.FixedFont)
-		fixedfont.setPointSize(12)
-		self.editor.setFont(fixedfont)
+		self.editors = [QPlainTextEdit()]
+		#self.editor2 = QPlainTextEdit()
+		self.tab = QTabWidget()
+		self.create_new_tab()
+		self.create_new_tab()
+		#elf.tab.addTab(self.editor, "Tab1")
+		#self.tab.addTab(self.editor2, "Tab2")
 
 
 		self.path = None
 
-		layout.addWidget(self.editor)
+		layout.addWidget(self.tab)
 
 
 		container = QWidget()
@@ -83,28 +87,32 @@ class MainWindow(QMainWindow):
 
 		cut_action = QAction(QIcon(os.path.join('images','scissors.png')),"Cut",self)
 		cut_action.setStatusTip("Copy selected text")
-		cut_action.triggered.connect(self.editor.cut)
+		# cut_action.triggered.connect(self.editor.cut)
+		cut_action.triggered.connect(self.editors[self.tab.currentIndex()+1].cut)
 		edit_toolbar.addAction(cut_action)
 		edit_menu.addAction(cut_action)
 
 
 		copy_action = QAction(QIcon(os.path.join('images','document-copy.png')),"Copy",self)
 		copy_action.setStatusTip("Cut selected text")
-		copy_action.triggered.connect(self.editor.copy)
+		# copy_action.triggered.connect(self.editor.copy)
+		copy_action.triggered.connect(self.editors[self.tab.currentIndex()+1].copy)
 		edit_toolbar.addAction(copy_action)
 		edit_menu.addAction(copy_action)
 
 
 		paste_action = QAction(QIcon(os.path.join('images','clipboard-paste-document-text.png')),"Paste",self)
 		paste_action.setStatusTip("Paste from clipboard")
-		paste_action.triggered.connect(self.editor.paste)
+		# paste_action.triggered.connect(self.editor.paste)
+		paste_action.triggered.connect(self.editors[self.tab.currentIndex()+1].paste)
 		edit_toolbar.addAction(paste_action)
 		edit_menu.addAction(paste_action)
 
 
 		select_action = QAction(QIcon(os.path.join('images','selection-input.png')),"Select",self)
 		select_action.setStatusTip("Select all text")
-		select_action.triggered.connect(self.editor.selectAll)
+		# select_action.triggered.connect(self.editor.selectAll)
+		select_action.triggered.connect(self.editors[self.tab.currentIndex()+1].selectAll)
 		edit_toolbar.addAction(select_action)
 		edit_menu.addAction(select_action)
 
@@ -115,7 +123,8 @@ class MainWindow(QMainWindow):
 
 		tab_action = QAction(QIcon(os.path.join('images','ui-tab--plus.png')),"New File",self)
 		tab_action.setStatusTip("Select all text")
-		tab_action.triggered.connect(self.editor.selectAll)
+		# tab_action.triggered.connect(self.editor.selectAll)
+		tab_action.triggered.connect(self.editors[self.tab.currentIndex()+1].selectAll)
 		edit_toolbar.addAction(tab_action)
 		edit_menu.addAction(tab_action)
 
@@ -125,6 +134,11 @@ class MainWindow(QMainWindow):
 		self.update_title()
 		self.show()
 
+	def create_new_tab(self):
+		self.editors.append(QPlainTextEdit())
+		self.tab.addTab(self.editors[-1], "New Tab")
+		for e in self.editors:
+			e.setFont(self.fixedfont)
 
 	def dialog_critical(self ,s):
 		dlg = QMessageBox(self)
@@ -140,7 +154,7 @@ class MainWindow(QMainWindow):
 
 		if path:
 			try:
-				with open(path,'rU') as f:
+				with open(path,'r') as f:
 					text = f.read()
 
 			except Exception as e:
@@ -148,7 +162,7 @@ class MainWindow(QMainWindow):
 
 			else:
 				self.path = path
-				self.editor.setPlainText(text)
+				self.editors[self.tab.currentIndex()+1].setPlainText(text)
 				self.update_title()
 
 
@@ -171,7 +185,7 @@ class MainWindow(QMainWindow):
 
 
 	def save_topath(self,path):
-		text = self.editor.toPlainText()
+		text = self.editors[self.tab.currentIndex()].toPlainText()
 		try:
 			with open(path,'w') as f:
 				f.write(text)
