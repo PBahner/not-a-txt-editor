@@ -23,7 +23,10 @@ class MainWindow(QMainWindow):
 		self.create_new_tab()
 		#elf.tab.addTab(self.editor, "Tab1")
 		#self.tab.addTab(self.editor2, "Tab2")
-
+		
+		#dark-mode
+		self.darkmode = False
+		self.dark_mode()
 
 		self.path = None
 
@@ -128,6 +131,14 @@ class MainWindow(QMainWindow):
 		edit_toolbar.addAction(tab_action)
 		edit_menu.addAction(tab_action)
 
+		edit_menu.addSeparator()
+
+		darkmode_action = QAction(QIcon(os.path.join('images','dark-mode.png')),"Dark Mode",self)
+		darkmode_action.setStatusTip("Enable/Disable Dark Mode ")
+		darkmode_action.triggered.connect(self.dark_mode)
+		edit_toolbar.addAction(darkmode_action)
+		edit_menu.addAction(darkmode_action)
+
 
 		
 
@@ -201,6 +212,47 @@ class MainWindow(QMainWindow):
 
 	def update_title(self):
 		self.setWindowTitle("%s-!aTxtEditor"%(os.path.basename(self.path) if self.path else "Untitled"))
+
+	
+
+
+	def dark_mode(self):
+		if not self.darkmode:
+			self.darkmode = True
+			app.setStyle("Fusion")
+			light = QPalette()
+			light.setColor(QPalette.Window, QColor(235, 235, 235))
+			light.setColor(QPalette.WindowText, Qt.black)
+			light.setColor(QPalette.Base, QColor(250, 250, 250))
+			light.setColor(QPalette.AlternateBase, QColor(250, 250, 250))
+			light.setColor(QPalette.ToolTipBase, Qt.white)
+			light.setColor(QPalette.ToolTipText, Qt.black)
+			light.setColor(QPalette.Text, Qt.black)
+			light.setColor(QPalette.Button, QColor(250, 250, 250))
+			light.setColor(QPalette.ButtonText, Qt.black)
+			light.setColor(QPalette.BrightText, Qt.red)
+			light.setColor(QPalette.Link, QColor(250, 250, 250))
+			light.setColor(QPalette.Highlight, QColor(250, 250, 250))
+			light.setColor(QPalette.HighlightedText, Qt.white)
+			app.setPalette(light)
+		else:
+			self.darkmode = False
+			app.setStyle("Fusion")
+			dark = QPalette()
+			dark.setColor(QPalette.Window, QColor(53, 53, 53))
+			dark.setColor(QPalette.WindowText, Qt.white)
+			dark.setColor(QPalette.Base, QColor(25, 25, 25))
+			dark.setColor(QPalette.AlternateBase, QColor(53, 53, 53))
+			dark.setColor(QPalette.ToolTipBase, Qt.black)
+			dark.setColor(QPalette.ToolTipText, Qt.white)
+			dark.setColor(QPalette.Text, Qt.white)
+			dark.setColor(QPalette.Button, QColor(53, 53, 53))
+			dark.setColor(QPalette.ButtonText, Qt.white)
+			dark.setColor(QPalette.BrightText, Qt.red)
+			dark.setColor(QPalette.Link, QColor(42, 130, 218))
+			dark.setColor(QPalette.Highlight, QColor(42, 130, 218))
+			dark.setColor(QPalette.HighlightedText, Qt.black)
+			app.setPalette(dark)
 
 
 
