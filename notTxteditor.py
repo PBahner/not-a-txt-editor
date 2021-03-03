@@ -130,7 +130,7 @@ class MainWindow(QMainWindow):
 
     def file_open(self):
 
-        path, _ = QFileDialog.getOpenFileName(self, "Open File", "", "Text Documents (*.txt); All Files (*.*)")
+        path, _ = QFileDialog.getOpenFileName(self, "Open File", "", "Text Documents (*.txt);;All Files (*.*)")
 
         if path:
             try:
@@ -152,7 +152,7 @@ class MainWindow(QMainWindow):
         self.save_topath(self.path)
 
     def file_saveas(self):
-        path, _ = QFileDialog.getSaveFileName(self, "Save FIle", "", "Text Documents (*.txt); All Files (*.*)")
+        path, _ = QFileDialog.getSaveFileName(self, "Save FIle", "", "Text Documents (*.txt);;All Files (*.*)")
 
         if not path:
             return
@@ -160,7 +160,7 @@ class MainWindow(QMainWindow):
         self.save_topath(path)
 
     def save_topath(self, path):
-        text = self.editors[self.tab.currentIndex()].toPlainText()
+        text = self.editors[self.tab.currentIndex() + 1].toPlainText()
         try:
             with open(path, 'w') as f:
                 f.write(text)
