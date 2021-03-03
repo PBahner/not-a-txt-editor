@@ -52,6 +52,16 @@ class MainWindow(QMainWindow):
 
 
 
+		tab_action = QAction(QIcon(os.path.join('images','ui-tab--plus.png')),"New File",self)
+		tab_action.setStatusTip("New File")
+		# tab_action.triggered.connect(self.editor.selectAll)
+		tab_action.triggered.connect(self.create_new_tab)
+		file_toolbar.addAction(tab_action)
+		file_menu.addAction(tab_action)
+
+
+
+
 		open_action = QAction(QIcon(os.path.join('images','blue-folder-open-document.png')),"Open file....",self)
 		open_action.setStatusTip("Open file")
 		open_action.triggered.connect(self.file_open)
@@ -74,9 +84,6 @@ class MainWindow(QMainWindow):
 		saveas_action.triggered.connect(self.file_saveas)
 		file_menu.addAction(saveas_action)
 		file_toolbar.addAction(saveas_action)
-		
-
-
 
 
 
@@ -124,14 +131,6 @@ class MainWindow(QMainWindow):
 		edit_menu.addSeparator()
 
 
-		tab_action = QAction(QIcon(os.path.join('images','ui-tab--plus.png')),"New File",self)
-		tab_action.setStatusTip("Select all text")
-		# tab_action.triggered.connect(self.editor.selectAll)
-		tab_action.triggered.connect(self.editors[self.tab.currentIndex()+1].selectAll)
-		edit_toolbar.addAction(tab_action)
-		edit_menu.addAction(tab_action)
-
-		edit_menu.addSeparator()
 
 		darkmode_action = QAction(QIcon(os.path.join('images','dark-mode.png')),"Dark Mode",self)
 		darkmode_action.setStatusTip("Enable/Disable Dark Mode ")
@@ -231,8 +230,8 @@ class MainWindow(QMainWindow):
 			light.setColor(QPalette.Button, QColor(250, 250, 250))
 			light.setColor(QPalette.ButtonText, Qt.black)
 			light.setColor(QPalette.BrightText, Qt.red)
-			light.setColor(QPalette.Link, QColor(250, 250, 250))
-			light.setColor(QPalette.Highlight, QColor(250, 250, 250))
+			light.setColor(QPalette.Link, QColor(42, 130, 218))
+			light.setColor(QPalette.Highlight, QColor(42, 130, 218))
 			light.setColor(QPalette.HighlightedText, Qt.white)
 			app.setPalette(light)
 		else:
