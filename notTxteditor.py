@@ -10,7 +10,7 @@ import sys
 
 class MainWindow(QMainWindow):
 	
-	def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs):
         super(MainWindow, self).__init__(*args, **kwargs)
 
         layout = QVBoxLayout()
@@ -187,8 +187,8 @@ class MainWindow(QMainWindow):
             light.setColor(QPalette.Button, QColor(250, 250, 250))
             light.setColor(QPalette.ButtonText, Qt.black)
             light.setColor(QPalette.BrightText, Qt.red)
-			light.setColor(QPalette.Link, QColor(42, 130, 218))
-			light.setColor(QPalette.Highlight, QColor(42, 130, 218))
+            light.setColor(QPalette.Link, QColor(42, 130, 218))
+            light.setColor(QPalette.Highlight, QColor(42, 130, 218))
             light.setColor(QPalette.HighlightedText, Qt.white)
             app.setPalette(light)
         else:
