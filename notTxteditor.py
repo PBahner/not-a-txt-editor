@@ -7,8 +7,9 @@ import os
 import sys
 
 
-class MainWindow(QMainWindow):
 
+class MainWindow(QMainWindow):
+  
     def __init__(self, *args, **kwargs):
         super(MainWindow, self).__init__(*args, **kwargs)
 
@@ -44,6 +45,13 @@ class MainWindow(QMainWindow):
         file_toolbar.setIconSize(QSize(14, 14))
         self.addToolBar(file_toolbar)
         file_menu = self.menuBar().addMenu("&File")
+
+        tab_action = QAction(QIcon(os.path.join('images', 'ui-tab--plus.png')), "New File", self)
+        tab_action.setStatusTip("New File")
+        # tab_action.triggered.connect(self.editor.selectAll)
+        tab_action.triggered.connect(self.create_new_tab)
+        file_toolbar.addAction(tab_action)
+        file_menu.addAction(tab_action)
 
         open_action = QAction(QIcon(os.path.join('images', 'blue-folder-open-document.png')), "Open file....", self)
         open_action.setStatusTip("Open file")
@@ -95,15 +103,6 @@ class MainWindow(QMainWindow):
         select_action.triggered.connect(self.editors[self.tab.currentIndex() + 1].selectAll)
         edit_toolbar.addAction(select_action)
         edit_menu.addAction(select_action)
-
-        edit_menu.addSeparator()
-
-        tab_action = QAction(QIcon(os.path.join('images', 'ui-tab--plus.png')), "New File", self)
-        tab_action.setStatusTip("Select all text")
-        # tab_action.triggered.connect(self.editor.selectAll)
-        tab_action.triggered.connect(self.editors[self.tab.currentIndex() + 1].selectAll)
-        edit_toolbar.addAction(tab_action)
-        edit_menu.addAction(tab_action)
 
         edit_menu.addSeparator()
 
@@ -188,8 +187,8 @@ class MainWindow(QMainWindow):
             light.setColor(QPalette.Button, QColor(250, 250, 250))
             light.setColor(QPalette.ButtonText, Qt.black)
             light.setColor(QPalette.BrightText, Qt.red)
-            light.setColor(QPalette.Link, QColor(250, 250, 250))
-            light.setColor(QPalette.Highlight, QColor(250, 250, 250))
+			      light.setColor(QPalette.Link, QColor(42, 130, 218))
+			      light.setColor(QPalette.Highlight, QColor(42, 130, 218))
             light.setColor(QPalette.HighlightedText, Qt.white)
             app.setPalette(light)
         else:
